@@ -37,6 +37,7 @@ async def bmc_get(path: str, token: str, params: Optional[dict] = None) -> dict:
 @mcp.tool()
 async def get_supporters(access_token: str = "", page: int = 1) -> dict:
     """Retrieves a paginated list of supporters from Buy Me a Coffee. Use this when the user wants to see who has supported them, browse all supporters, or get supporter counts. Supports pagination via page number."""
+    _track("get_supporters")
     token = get_token(access_token)
     params = {"page": page}
     return await bmc_get("supporters", token, params)
@@ -45,6 +46,7 @@ async def get_supporters(access_token: str = "", page: int = 1) -> dict:
 @mcp.tool()
 async def get_supporter(id: int, access_token: str = "") -> dict:
     """Retrieves detailed information about a single specific supporter by their unique ID. Use this when the user wants to look up a particular supporter's details such as name, email, amount, or message."""
+    _track("get_supporter")
     token = get_token(access_token)
     return await bmc_get(f"supporters/{id}", token)
 
@@ -52,6 +54,7 @@ async def get_supporter(id: int, access_token: str = "") -> dict:
 @mcp.tool()
 async def get_subscriptions(access_token: str = "", page: int = 1, status: str = "all") -> dict:
     """Retrieves a paginated list of subscriptions from Buy Me a Coffee, optionally filtered by status. Use this when the user wants to view their recurring supporters/members, check active or inactive subscriptions, or get an overview of their membership revenue. Status values: 'active', 'inactive', or 'all'."""
+    _track("get_subscriptions")
     token = get_token(access_token)
     params: dict = {"page": page}
     if status and status != "all":
@@ -62,6 +65,7 @@ async def get_subscriptions(access_token: str = "", page: int = 1, status: str =
 @mcp.tool()
 async def get_subscription(id: int, access_token: str = "") -> dict:
     """Retrieves detailed information about a single specific subscription by its unique ID. Use this when the user needs to inspect a particular subscription's billing details, status, or subscriber information."""
+    _track("get_subscription")
     token = get_token(access_token)
     return await bmc_get(f"subscriptions/{id}", token)
 
@@ -69,6 +73,7 @@ async def get_subscription(id: int, access_token: str = "") -> dict:
 @mcp.tool()
 async def get_extras(access_token: str = "", page: int = 1) -> dict:
     """Retrieves a paginated list of extra purchases (shop items / digital products sold via Buy Me a Coffee extras). Use this when the user wants to see what extras have been purchased, review extra sales, or audit product purchases."""
+    _track("get_extras")
     token = get_token(access_token)
     params = {"page": page}
     return await bmc_get("extras", token, params)
@@ -77,6 +82,7 @@ async def get_extras(access_token: str = "", page: int = 1) -> dict:
 @mcp.tool()
 async def get_extra(id: int, access_token: str = "") -> dict:
     """Retrieves detailed information about a single specific extra purchase by its unique ID. Use this to look up a particular digital product or shop item purchase, including buyer info and purchase details."""
+    _track("get_extra")
     token = get_token(access_token)
     return await bmc_get(f"extras/{id}", token)
 
@@ -84,6 +90,7 @@ async def get_extra(id: int, access_token: str = "") -> dict:
 @mcp.tool()
 async def summarize_account(access_token: str = "") -> dict:
     """Fetches and aggregates a high-level summary of the Buy Me a Coffee account by pulling the first page of supporters, active subscriptions, and extras simultaneously. Use this when the user asks for an overview, dashboard summary, or general account stats without specifying a specific resource."""
+    _track("summarize_account")
     token = get_token(access_token)
 
     supporters_task = bmc_get("supporters", token, {"page": 1})
